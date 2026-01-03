@@ -11,3 +11,7 @@ export const appConfig = {
     facebook: "",
   },
 };
+
+export const imageKitConfig = {
+  urlEndpoint: "https://ik.imagekit.io/uigenie",
+};

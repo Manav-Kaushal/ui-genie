@@ -1,4 +1,5 @@
 import Logo from "@/components/shared/logo";
+import { imageKitConfig } from "@/lib/config";
 import Image from "next/image";
 
 type Props = {
@@ -18,8 +19,8 @@ const AuthLayout = ({ children }: Props) => {
       </div>
       <div className="bg-muted relative hidden lg:block">
         <Image
-          src="https://ik.imagekit.io/uigenie/web/auth-screen-wallpaper.jpg"
-          alt="Image"
+          src={imageKitConfig.urlEndpoint + "/web/auth-screen-wallpaper.jpg"}
+          alt="Auth Screen Wallpaper"
           width={1024}
           height={1024}
           className="absolute inset-0 h-full w-full object-cover"
