@@ -31,11 +31,11 @@ const Logo = React.forwardRef<HTMLSpanElement, LogoProps>(
     },
     ref
   ) => {
-    const displayName = appConfig?.displayName;
+    const name = appConfig?.name;
 
-    if (!displayName) {
+    if (!name) {
       if (process.env.NODE_ENV === "development") {
-        console.error("[Logo] appConfig.displayName is not defined");
+        console.error("[Logo] appConfig.name is not defined");
       }
       return null;
     }
@@ -57,7 +57,7 @@ const Logo = React.forwardRef<HTMLSpanElement, LogoProps>(
         data-testid={testId}
         {...props}
       >
-        {displayName}
+        {name}
       </span>
     );
 
@@ -68,7 +68,7 @@ const Logo = React.forwardRef<HTMLSpanElement, LogoProps>(
     return (
       <Link
         href={href}
-        aria-label={`${displayName} - Go to homepage`}
+        aria-label={`${name} - Go to homepage`}
         className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
       >
         {logoElement}
