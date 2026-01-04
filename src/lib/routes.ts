@@ -6,6 +6,7 @@ export const navigation = {
   },
   dashboard: {
     home: "/dashboard",
+    billing: "/billing",
   },
 };
 
