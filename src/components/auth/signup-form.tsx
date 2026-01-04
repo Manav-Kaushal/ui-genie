@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/lib/custom-icons";
-import { routes } from "@/lib/routes";
+import { navigation } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -61,7 +61,7 @@ export function SignupForm({
           <FieldDescription className="px-6 text-center">
             Already have an account?{" "}
             <Link
-              href={routes.auth.signIn}
+              href={navigation.auth.signIn}
               className="underline underline-offset-4"
             >
               Sign in

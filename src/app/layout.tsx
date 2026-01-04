@@ -1,4 +1,6 @@
-import { ThemeProvider } from "@/theme/provider";
+import { ConvexClientProvider } from "@/providers/convex";
+import { ThemeProvider } from "@/providers/theme";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
 import { Borel, Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
@@ -31,20 +33,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${borel.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+    <ConvexAuthNextjsServerProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${borel.variable} antialiased`}
         >
-          {children}
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+          <ConvexClientProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </ConvexClientProvider>
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   );
 }
