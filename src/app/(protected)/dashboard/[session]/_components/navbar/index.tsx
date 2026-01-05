@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { navigation } from "@/lib/routes";
 import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/redux/store";
 import { useQuery } from "convex/react";
 import {
   CircleQuestionMarkIcon,
@@ -30,6 +31,9 @@ const Navbar = () => {
   const hasCanvas = pathname.includes("canvas");
   const hasStyleGuide = pathname.includes("style-guide");
 
+  const me = useAppSelector((state) => state.profile);
+  console.log({ me });
+
   const project = useQuery(
     api.projects.getProject,
     projectId ? { projectId: projectId as Id<"projects"> } : "skip"
@@ -51,7 +55,10 @@ const Navbar = () => {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 p-6 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center gap-4">
-        <Link href={navigation.dashboard.home} className="-mb-2.5">
+        <Link
+          href={navigation.dashboard.home + `/${me.name}`}
+          className="-mb-2.5"
+        >
           <Logo size="lg" />
         </Link>
         {!hasCanvas ||
@@ -99,11 +106,15 @@ const Navbar = () => {
           <CircleQuestionMarkIcon className="size-5 text-foreground" />
         </Button>
         <Avatar className="size-12 ml-2">
-          <AvatarImage />
+          <AvatarImage src={me.image || ""} />
           <AvatarFallback>
             <UserIcon className="size-5 text-background" />
           </AvatarFallback>
         </Avatar>
+
+        {/* TODO: add autosave and create project */}
+        {/* hasCanvas && <Autosave /> */}
+        {/* !hasCanvas && !hasStyleGuide && <CreateProject /> */}
       </div>
     </div>
   );
