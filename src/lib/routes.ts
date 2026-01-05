@@ -7,6 +7,8 @@ export const navigation = {
   dashboard: {
     home: "/dashboard",
     billing: "/billing",
+    canvas: "/canvas",
+    styleGuide: "/style-guide",
   },
 };
 

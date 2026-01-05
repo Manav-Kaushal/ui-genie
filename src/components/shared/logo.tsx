@@ -15,8 +15,8 @@ const SIZE_CLASSES: Record<LogoSize, string> = {
   xs: "text-base",
   sm: "text-lg",
   md: "text-xl",
-  lg: "text-3xl",
-  xl: "text-5xl",
+  lg: "text-2xl",
+  xl: "text-3xl",
 } as const;
 
 const Logo = React.forwardRef<HTMLSpanElement, LogoProps>(

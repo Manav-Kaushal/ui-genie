@@ -7,7 +7,7 @@ const DashboardHomePage = async () => {
   const { entitlement, profileName } = await SubscriptionEntitlementQuery();
 
   if (!entitlement._valueJSON) {
-    redirect(`${navigation.dashboard.billing}/${combinedSlug(profileName!)}`);
+    redirect(`${navigation.dashboard.home}/${combinedSlug(profileName!)}`);
   }
 
   redirect(`${navigation.dashboard.home}/${combinedSlug(profileName!)}`);
