@@ -17,6 +17,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { api } from "../../../../../../../convex/_generated/api";
 import { Id } from "../../../../../../../convex/_generated/dataModel";
+import CreateProjectButton from "../buttons/create-project-button";
 
 type TabProps = {
   label: string;
@@ -114,7 +115,7 @@ const Navbar = () => {
 
         {/* TODO: add autosave and create project */}
         {/* hasCanvas && <Autosave /> */}
-        {/* !hasCanvas && !hasStyleGuide && <CreateProject /> */}
+        {!hasCanvas && !hasStyleGuide && <CreateProjectButton />}
       </div>
     </div>
   );

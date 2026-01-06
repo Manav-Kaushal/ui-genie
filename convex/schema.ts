@@ -50,7 +50,7 @@ const schema = defineSchema({
     thumbnail: v.optional(v.string()), // Base64 or URL of the project thumbnail
     moodBoardImages: v.optional(v.array(v.string())), // Array of storage IDs for mood board images
     inspirationImages: v.optional(v.array(v.string())), // Array of storage IDs for inspiration images
-    lasModified: v.number(), // Timestamp for last modification
+    lastModified: v.number(), // Timestamp for last modification
     createdAt: v.number(), // Project creation time
     isPublic: v.optional(v.boolean()), // For future sharing fetaures
     tags: v.optional(v.array(v.string())), // For future categorization features
