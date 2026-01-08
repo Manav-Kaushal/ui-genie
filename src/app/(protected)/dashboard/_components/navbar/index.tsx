@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { api } from "../../../../../../../convex/_generated/api";
-import { Id } from "../../../../../../../convex/_generated/dataModel";
+import { api } from "../../../../../../convex/_generated/api";
+import { Id } from "../../../../../../convex/_generated/dataModel";
 import CreateProjectButton from "../buttons/create-project-button";
 
 type TabProps = {
@@ -43,12 +43,12 @@ const Navbar = () => {
   const tabs: TabProps[] = [
     {
       label: "Canvas",
-      href: `${navigation.dashboard.home}/${navigation.dashboard.canvas}?project=${projectId}`,
+      href: `${navigation.dashboard.home}/${me.name}/${navigation.dashboard.canvas}?project=${projectId}`,
       icon: <HashIcon className="size-4" />,
     },
     {
       label: "Style Guide",
-      href: `${navigation.dashboard.home}/${navigation.dashboard.styleGuide}?project=${projectId}`,
+      href: `${navigation.dashboard.home}/${me.name}/${navigation.dashboard.styleGuide}?project=${projectId}`,
       icon: <LayoutTemplateIcon className="size-4" />,
     },
   ];

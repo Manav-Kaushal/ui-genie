@@ -1,5 +1,5 @@
 import { SubscriptionEntitlementQuery } from "@/lib/convex/query.config";
-import Navbar from "./_components/navbar";
+import Navbar from "../_components/navbar";
 
 type LayoutProps = {
   children: React.ReactNode;
