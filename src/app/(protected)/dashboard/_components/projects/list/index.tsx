@@ -8,9 +8,7 @@ import { PlusIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-type Props = {};
-
-const ProjectsList = (props: Props) => {
+const ProjectsList = () => {
   const { projects, canCreate } = useProjectCreation();
   const user = useAppSelector((state) => state.profile);
 
@@ -52,7 +50,7 @@ const ProjectsList = (props: Props) => {
           {projects.map((project: any) => (
             <Link
               key={project._id}
-              href={`/${navigation.dashboard.home}/${user?.name}/${navigation.dashboard.canvas}?project=${project._id}`}
+              href={`${navigation.dashboard.home}/${user?.name}/${navigation.dashboard.canvas}?project=${project._id}`}
               className="group cursor-pointer"
             >
               <div className="space-y-3">

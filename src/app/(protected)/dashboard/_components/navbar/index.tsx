@@ -32,8 +32,7 @@ const Navbar = () => {
   const hasCanvas = pathname.includes("canvas");
   const hasStyleGuide = pathname.includes("style-guide");
 
-  const me = useAppSelector((state) => state.profile);
-  console.log({ me });
+  const user = useAppSelector((state) => state.profile);
 
   const project = useQuery(
     api.projects.getProject,
@@ -43,31 +42,33 @@ const Navbar = () => {
   const tabs: TabProps[] = [
     {
       label: "Canvas",
-      href: `${navigation.dashboard.home}/${me.name}/${navigation.dashboard.canvas}?project=${projectId}`,
+      href: `${navigation.dashboard.home}/${user?.name}${navigation.dashboard.canvas}?project=${projectId}`,
       icon: <HashIcon className="size-4" />,
     },
     {
       label: "Style Guide",
-      href: `${navigation.dashboard.home}/${me.name}/${navigation.dashboard.styleGuide}?project=${projectId}`,
+      href: `${navigation.dashboard.home}/${user?.name}${navigation.dashboard.styleGuide}?project=${projectId}`,
       icon: <LayoutTemplateIcon className="size-4" />,
     },
   ];
+
+  console.log({ pathname: `${pathname}?project=${projectId}` });
+  console.log({ tabs });
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 p-6 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center gap-4">
         <Link
-          href={navigation.dashboard.home + `/${me.name}`}
+          href={navigation.dashboard.home + `/${user?.name}`}
           className="-mb-2.5"
         >
           <Logo size="lg" />
         </Link>
-        {!hasCanvas ||
-          (!hasStyleGuide && (
-            <div className="lg:inline-block hidden rounded-full text-primary/80 border border-white/12 backdrop-blur-xl bg-foreground/8 px-4 py-2 text-sm saturate-150">
-              Project / {project?.name}
-            </div>
-          ))}
+        {(!hasCanvas || !hasStyleGuide) && (
+          <div className="lg:inline-block hidden rounded-full text-primary/80 border border-white/12 backdrop-blur-xl bg-foreground/8 px-4 py-2 text-sm saturate-150">
+            Project / {project?.name}
+          </div>
+        )}
       </div>
 
       <div className="lg:flex hidden items-center justify-center gap-2">
@@ -107,7 +108,7 @@ const Navbar = () => {
           <CircleQuestionMarkIcon className="size-5 text-foreground" />
         </Button>
         <Avatar className="size-12 ml-2">
-          <AvatarImage src={me.image || ""} />
+          <AvatarImage src={user?.image || ""} />
           <AvatarFallback>
             <UserIcon className="size-5 text-background" />
           </AvatarFallback>
