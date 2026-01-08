@@ -99,3 +99,23 @@ export const getUserProjects = query({
     }));
   },
 });
+
+export const getProjectStyleGuide = query({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, { projectId }) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Not authenticated");
+
+    const project = await ctx.db.get(projectId);
+    if (!project) throw new Error("Project not found");
+
+    // Check ownership or public access
+    if (project.userId !== userId && !project.isPublic)
+      throw new Error("Access Denied");
+
+    // Return parsed style guide data or null
+    return project.styleGuide ? JSON.parse(project.styleGuide) : null;
+  },
+});
