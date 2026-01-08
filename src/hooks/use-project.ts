@@ -45,7 +45,7 @@ const generateGradientThumbnail = () => {
     </svg>
   `;
 
-  return `data:image/svg+xml,${btoa(svgContent)}`;
+  return `data:image/svg+xml;base64,${btoa(svgContent)}`;
 };
 
 export const useProjectCreation = () => {
