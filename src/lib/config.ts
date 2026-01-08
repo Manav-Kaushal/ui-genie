@@ -1,3 +1,5 @@
+export const isProduction = process.env.NODE_ENV === "production";
+
 export const appConfig = {
   name: "ui-genie",
   author: "Manav Kaushal",

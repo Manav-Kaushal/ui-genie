@@ -1,5 +1,6 @@
 import { TabsContent } from "@/components/ui/tabs";
 import { MoodBoardImage } from "@/hooks/use-styles";
+import { isProduction } from "@/lib/config";
 import {
   MoodBoardImagesQuery,
   StyleGuideQuery,
@@ -8,6 +9,7 @@ import { mockStyleGuide } from "@/lib/mocks/style-guide";
 import { StyleGuide } from "@/redux/api/style-guide";
 import { PaletteIcon } from "lucide-react";
 import { ThemeContent } from "../../../_components/style-guide/theme";
+import StyleGuideTypography from "../../../_components/style-guide/typography";
 
 type StyleGuidePageProps = {
   searchParams: Promise<{ project: string }>;
@@ -27,10 +29,18 @@ const StyleGuidePage = async ({ searchParams }: StyleGuidePageProps) => {
   const guideImages = existingMoodBoardImages.images
     ._valueJSON as unknown as MoodBoardImage[];
 
+  const finalColorsData = !isProduction
+    ? mockStyleGuide.colorSections
+    : colorGuide;
+  const finalTypographyData = !isProduction
+    ? mockStyleGuide.typographySections
+    : typographyGuide;
+
   return (
     <div>
       <TabsContent value="colors" className="space-y-8">
-        {mockStyleGuide.colorSections?.length === 0 ? (
+        {/* TODO: Update logic */}
+        {guideImages?.length !== 0 ? (
           <div className="space-y-8">
             <div className="text-center py-20">
               <div className="size-16 mx-auto mb-4 rounded-lg bg-muted flex items-center justify-center">
@@ -46,8 +56,12 @@ const StyleGuidePage = async ({ searchParams }: StyleGuidePageProps) => {
             </div>
           </div>
         ) : (
-          <ThemeContent colorGuide={mockStyleGuide.colorSections} />
+          <ThemeContent colorGuide={finalColorsData} />
         )}
+      </TabsContent>
+
+      <TabsContent value="typography">
+        <StyleGuideTypography typographyGuide={finalTypographyData} />
       </TabsContent>
     </div>
   );

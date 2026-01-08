@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import ColorSwatch from "../swatch";
+import ColorSwatch from "./swatch";
 
 const ColorTheme = ({
   title,

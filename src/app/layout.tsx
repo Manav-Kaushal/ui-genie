@@ -5,7 +5,7 @@ import ReduxProvider from "@/redux/provider";
 import { ConvexUserRaw, normalizeProfile } from "@/types/user";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
-import { Borel, Geist, Geist_Mono } from "next/font/google";
+import { Borel, Geist, Geist_Mono, Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -22,6 +22,11 @@ const geistMono = Geist_Mono({
 const borel = Borel({
   variable: "--font-borel",
   weight: "400",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -44,7 +49,7 @@ export default async function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${borel.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${borel.variable} ${inter.variable} antialiased`}
         >
           <ConvexClientProvider>
             <ThemeProvider
