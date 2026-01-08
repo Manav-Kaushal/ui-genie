@@ -1,6 +1,11 @@
 "use client";
 
-import { createProjectStart } from "@/redux/slice/projects";
+import {
+  addProject,
+  createProjectFailure,
+  createProjectStart,
+  createProjectSuccess,
+} from "@/redux/slice/projects";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { fetchMutation } from "convex/nextjs";
 import { toast } from "sonner";
@@ -46,7 +51,8 @@ const generateGradientThumbnail = () => {
 export const useProjectCreation = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.profile);
-  const projectState = useAppSelector((state) => state.project);
+  const projectsState = useAppSelector((state) => state.projects);
+  const shapesState = useAppSelector((state) => state.shapes);
 
   const createProject = async (name?: string) => {
     if (!user.id) {
@@ -65,17 +71,34 @@ export const useProjectCreation = () => {
           selected: shapesState.selected,
           frameCounter: shapesState.frameCounter,
         },
+        thumbnail,
       });
-    } catch (error) {}
+
+      dispatch(
+        addProject({
+          _id: result.projectId,
+          name: result.name,
+          projectNumber: result.projectNumber,
+          thumbnail,
+          lastModified: Date.now(),
+          createdAt: Date.now(),
+          isPublic: false,
+        })
+      );
+      dispatch(createProjectSuccess());
+      toast.success("Project created successfully!");
+    } catch (error) {
+      console.error({ error });
+      dispatch(createProjectFailure("Failed to create project."));
+      toast.error("Failed to create project.");
+    }
   };
 
   return {
-    isCreating: projectState.isCreating,
-    projects: projectState.projects,
-    projectsTotal: projectState.total,
-    canCreate: !!user._id,
-    // createProject: () => {
-    //   dispatch();
-    // },
+    createProject,
+    isCreating: projectsState?.isCreating,
+    projects: projectsState?.projects,
+    projectsTotal: projectsState?.total,
+    canCreate: !!user?.id,
   };
 };

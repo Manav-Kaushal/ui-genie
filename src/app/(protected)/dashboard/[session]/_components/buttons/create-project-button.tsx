@@ -5,9 +5,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useProjectCreation } from "@/hooks/use-project";
 import { PlusIcon } from "lucide-react";
 
-type Props = {};
-
-const CreateProjectButton = (props: Props) => {
+const CreateProjectButton = () => {
   const { createProject, isCreating, canCreate } = useProjectCreation();
 
   return (

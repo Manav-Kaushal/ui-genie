@@ -34,7 +34,7 @@ const projectsSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    fetchProjectsState: (state) => {
+    fetchProjectsStart: (state) => {
       state.isLoading = true;
       state.error = null;
     },
@@ -110,7 +110,7 @@ const projectsSlice = createSlice({
 });
 
 export const {
-  fetchProjectsState,
+  fetchProjectsStart,
   fetchProjectsSuccess,
   fetchProjectsFailure,
   createProjectStart,

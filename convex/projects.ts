@@ -41,6 +41,12 @@ export const createProject = mutation({
       isPublic: false,
     });
 
+    console.log("💯 [Convex] Project Created => ", {
+      projectId,
+      name: projectName,
+      projectNumber,
+    });
+
     return { projectId, name: projectName, projectNumber };
   },
 });
@@ -52,7 +58,7 @@ async function getNextProjectNumber(ctx: any, userId: string): Promise<number> {
     .first();
 
   if (!counter) {
-    await ctx.db.create("project_counters", {
+    await ctx.db.insert("project_counters", {
       userId,
       nextProjectNumber: 2,
     });
