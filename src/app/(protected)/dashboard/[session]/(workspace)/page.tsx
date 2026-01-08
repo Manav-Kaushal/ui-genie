@@ -1,6 +1,6 @@
 import { ProjectsQuery } from "@/lib/convex/query.config";
-import ProjectsList from "../_components/projects/list";
-import ProjectsProvider from "../_components/projects/list/provider";
+import ProjectsList from "../../_components/projects/list";
+import ProjectsProvider from "../../_components/projects/list/provider";
 
 const Page = async () => {
   const { projects, profile } = await ProjectsQuery();
