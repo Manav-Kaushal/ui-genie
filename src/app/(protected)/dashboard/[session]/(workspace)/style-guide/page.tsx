@@ -1,15 +1,14 @@
 import { TabsContent } from "@/components/ui/tabs";
 import { MoodBoardImage } from "@/hooks/use-styles";
-import { isProduction } from "@/lib/config";
 import {
   MoodBoardImagesQuery,
   StyleGuideQuery,
 } from "@/lib/convex/query.config";
-import { mockStyleGuide } from "@/lib/mocks/style-guide";
 import { StyleGuide } from "@/redux/api/style-guide";
 import { PaletteIcon } from "lucide-react";
 import { ThemeContent } from "../../../_components/style-guide/theme";
 import StyleGuideTypography from "../../../_components/style-guide/typography";
+import StyleGuideMoodBoard from "../../../_components/style-guide/moodboard";
 
 type StyleGuidePageProps = {
   searchParams: Promise<{ project: string }>;
@@ -29,18 +28,10 @@ const StyleGuidePage = async ({ searchParams }: StyleGuidePageProps) => {
   const guideImages = existingMoodBoardImages.images
     ._valueJSON as unknown as MoodBoardImage[];
 
-  const finalColorsData = !isProduction
-    ? mockStyleGuide.colorSections
-    : colorGuide;
-  const finalTypographyData = !isProduction
-    ? mockStyleGuide.typographySections
-    : typographyGuide;
-
   return (
     <div>
       <TabsContent value="colors" className="space-y-8">
-        {/* TODO: Update logic */}
-        {guideImages?.length !== 0 ? (
+        {guideImages?.length === 0 ? (
           <div className="space-y-8">
             <div className="text-center py-20">
               <div className="size-16 mx-auto mb-4 rounded-lg bg-muted flex items-center justify-center">
@@ -56,12 +47,16 @@ const StyleGuidePage = async ({ searchParams }: StyleGuidePageProps) => {
             </div>
           </div>
         ) : (
-          <ThemeContent colorGuide={finalColorsData} />
+          <ThemeContent colorGuide={colorGuide} />
         )}
       </TabsContent>
 
       <TabsContent value="typography">
-        <StyleGuideTypography typographyGuide={finalTypographyData} />
+        <StyleGuideTypography typographyGuide={typographyGuide} />
+      </TabsContent>
+
+      <TabsContent value="moodboard">
+        <StyleGuideMoodBoard guideImages={guideImages} />
       </TabsContent>
     </div>
   );
