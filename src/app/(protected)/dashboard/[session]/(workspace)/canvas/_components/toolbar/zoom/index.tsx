@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import useInfiniteCanvas from "@/hooks/use-canvas";
 import { setScale } from "@/redux/slice/viewport";
-import { ZoomOutIcon } from "lucide-react";
+import { ZoomInIcon, ZoomOutIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
 
 const ZoomBar = () => {
@@ -12,6 +12,11 @@ const ZoomBar = () => {
 
   const handleZoomOut = () => {
     const newScale = Math.max(viewport.scale / 1.2, viewport.minScale);
+    dispatch(setScale({ scale: newScale }));
+  };
+
+  const handleZoomIn = () => {
+    const newScale = Math.min(viewport.scale * 1.2, viewport.maxScale);
     dispatch(setScale({ scale: newScale }));
   };
 
@@ -26,6 +31,20 @@ const ZoomBar = () => {
           title="Zoom Out"
         >
           <ZoomOutIcon className="size-4 text-primary/50" />
+        </Button>
+        <div className="text-center">
+          <span className="text-sm font-mono leading-non text-primary/50">
+            {Math.round(viewport.scale * 100)}%
+          </span>
+        </div>
+        <Button
+          variant="ghost"
+          size="lg"
+          onClick={handleZoomIn}
+          className="size-9 p-0 rounded-full cursor-pointer hover:bg-foreground/12 border border-transparent hover:border-foreground/16 transition-all"
+          title="Zoom In"
+        >
+          <ZoomInIcon className="size-4 text-primary/50" />
         </Button>
       </div>
     </div>
