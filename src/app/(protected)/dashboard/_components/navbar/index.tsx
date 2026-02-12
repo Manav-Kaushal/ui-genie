@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const project = useQuery(
     api.projects.getProject,
-    projectId ? { projectId: projectId as Id<"projects"> } : "skip"
+    projectId ? { projectId: projectId as Id<"projects"> } : "skip",
   );
 
   const tabs: TabProps[] = [
@@ -52,18 +52,15 @@ const Navbar = () => {
     },
   ];
 
-  console.log({ pathname: `${pathname}?project=${projectId}` });
-  console.log({ tabs });
-
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 p-6 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center gap-4">
-        <Link
+        {/* <Link
           href={navigation.dashboard.home + `/${user?.name}`}
           className="-mb-2.5"
-        >
-          <Logo size="lg" />
-        </Link>
+        > */}
+        <Logo size="lg" />
+        {/* </Link> */}
         {(!hasCanvas || !hasStyleGuide) && (
           <div className="lg:inline-block hidden rounded-full text-primary/80 border border-white/12 backdrop-blur-xl bg-foreground/8 px-4 py-2 text-sm saturate-150">
             Project / {project?.name}
@@ -81,14 +78,14 @@ const Navbar = () => {
                 "group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition",
                 `${pathname}?project=${projectId}` === t.href
                   ? "bg-foreground/12 text-foreground border border-foreground/16"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-foreground/6 border border-transparent"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-foreground/6 border border-transparent",
               )}
             >
               <span
                 className={cn(
                   `${pathname}?project=${projectId}` === t.href
                     ? "opacity-100"
-                    : "opacity-70 group-hover:opacity-90"
+                    : "opacity-70 group-hover:opacity-90",
                 )}
               >
                 {t.icon}

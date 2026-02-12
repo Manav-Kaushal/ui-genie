@@ -184,13 +184,13 @@ const useInfiniteCanvas = () => {
           distanceToLineSegment(
             point,
             { x: shape.startX, y: shape.startY },
-            { x: shape.endX, y: shape.endY }
+            { x: shape.endX, y: shape.endY },
           ) <= lineThreshold
         );
       case "text":
         const textWidth = Math.max(
           shape.text.length * (shape.fontSize * 0.16),
-          100
+          100,
         );
 
         const textHeight = shape.fontSize * 1.2;
@@ -211,7 +211,7 @@ const useInfiniteCanvas = () => {
   const distanceToLineSegment = (
     point: Point,
     lineStart: Point,
-    lineEnd: Point
+    lineEnd: Point,
   ): number => {
     const A = point.x - lineStart.x;
     const B = point.y - lineStart.y;
@@ -293,7 +293,7 @@ const useInfiniteCanvas = () => {
     } else {
       console.log(
         "Not preventing default - clicked on interactive element!",
-        target
+        target,
       );
       return; // Don't handle canvas interactions when clicking buttons
     }
@@ -479,7 +479,7 @@ const useInfiniteCanvas = () => {
                     x: initialPos.x + deltaX,
                     y: initialPos.y + deltaY,
                   },
-                })
+                }),
               );
             }
           } else if (shape.type === "freedraw") {
@@ -495,7 +495,7 @@ const useInfiniteCanvas = () => {
                   patch: {
                     points: newPoints,
                   },
-                })
+                }),
               );
             }
           } else if (shape.type === "arrow" || shape.type === "line") {
@@ -514,20 +514,20 @@ const useInfiniteCanvas = () => {
                     endX: initialPos.endX + deltaX,
                     endY: initialPos.endY + deltaY,
                   },
-                })
+                }),
               );
             }
           }
         }
       });
+    }
 
-      if (isDrawingRef.current) {
-        if (draftShapeRef.current) {
-          draftShapeRef.current.currentWorld = world;
-          requestRender();
-        } else if (currentTool === "freedraw") {
-          freeDrawPointsRef.current.push(world);
-        }
+    if (isDrawingRef.current) {
+      if (draftShapeRef.current) {
+        draftShapeRef.current.currentWorld = world;
+        requestRender();
+      } else if (currentTool === "freedraw") {
+        freeDrawPointsRef.current.push(world);
       }
     }
   };
@@ -535,7 +535,7 @@ const useInfiniteCanvas = () => {
   // Convert draft shapes to real shapes
   const finalizeDrawingIfAny = (): void => {
     if (!isDrawingRef.current) return;
-    isDrawingRef.current = true;
+    isDrawingRef.current = false;
 
     if (freehandRafRef.current) {
       window.cancelAnimationFrame(freehandRafRef.current);
@@ -563,7 +563,7 @@ const useInfiniteCanvas = () => {
               startY: draft.startWorld.y,
               endX: draft.currentWorld.x,
               endY: draft.currentWorld.y,
-            })
+            }),
           );
         } else if (draft.type === "line") {
           dispatch(
@@ -572,7 +572,7 @@ const useInfiniteCanvas = () => {
               startY: draft.startWorld.y,
               endX: draft.currentWorld.x,
               endY: draft.currentWorld.y,
-            })
+            }),
           );
         }
       }
@@ -674,7 +674,7 @@ const useInfiniteCanvas = () => {
       const world = screenToWorld(
         { x: localX, y: localY },
         viewport.translate,
-        viewport.scale
+        viewport.scale,
       );
       const shape = entityState.entities[shapeId];
       if (!shape) return;
@@ -685,11 +685,11 @@ const useInfiniteCanvas = () => {
         case "nw":
           newBounds.w = Math.max(
             10,
-            initialBounds.w + (initialBounds.x - world.x)
+            initialBounds.w + (initialBounds.x - world.x),
           );
           newBounds.h = Math.max(
             10,
-            initialBounds.h + (initialBounds.y - world.y)
+            initialBounds.h + (initialBounds.y - world.y),
           );
           newBounds.x = world.x;
           newBounds.y = world.y;
@@ -698,14 +698,14 @@ const useInfiniteCanvas = () => {
           newBounds.w = Math.max(10, world.x - initialBounds.x);
           newBounds.h = Math.max(
             10,
-            initialBounds.h + (initialBounds.y - world.y)
+            initialBounds.h + (initialBounds.y - world.y),
           );
           newBounds.y = world.y;
           break;
         case "sw":
           newBounds.w = Math.max(
             10,
-            initialBounds.w + (initialBounds.x - world.x)
+            initialBounds.w + (initialBounds.x - world.x),
           );
           newBounds.h = Math.max(10, world.y - initialBounds.y);
           newBounds.x = world.x;
@@ -756,7 +756,7 @@ const useInfiniteCanvas = () => {
               w: newBounds.w,
               h: newBounds.h,
             },
-          })
+          }),
         );
       } else if (shape.type === "freedraw") {
         const xs = shape.points.map((p: { x: number; y: number }) => p.x);
@@ -780,7 +780,7 @@ const useInfiniteCanvas = () => {
           (p: { x: number; y: number }) => ({
             x: newActualX + (p.x - actualMinX) * scaleX,
             y: newActualY + (p.y - actualMinY) * scaleY,
-          })
+          }),
         );
 
         dispatch(
@@ -789,7 +789,7 @@ const useInfiniteCanvas = () => {
             patch: {
               points: scaledPoints,
             },
-          })
+          }),
         );
       } else if (shape.type === "line" || shape.type === "arrow") {
         const actualMinX = Math.min(shape.startX, shape.endX);
@@ -847,7 +847,7 @@ const useInfiniteCanvas = () => {
               endX: newEndX,
               endY: newEndY,
             },
-          })
+          }),
         );
       }
     };
@@ -859,29 +859,29 @@ const useInfiniteCanvas = () => {
 
     window.addEventListener(
       "shape-resize-start",
-      handleResizeStart as EventListener
+      handleResizeStart as EventListener,
     );
     window.addEventListener(
       "shape-resize-move",
-      handleResizeMove as EventListener
+      handleResizeMove as EventListener,
     );
     window.addEventListener(
       "shape-resize-end",
-      handleResizeEnd as EventListener
+      handleResizeEnd as EventListener,
     );
 
     return () => {
       window.removeEventListener(
         "shape-resize-start",
-        handleResizeStart as EventListener
+        handleResizeStart as EventListener,
       );
       window.removeEventListener(
         "shape-resize-move",
-        handleResizeMove as EventListener
+        handleResizeMove as EventListener,
       );
       window.removeEventListener(
         "shape-resize-end",
-        handleResizeEnd as EventListener
+        handleResizeEnd as EventListener,
       );
     };
   }, [dispatch, entityState.entities, viewport.translate, viewport.scale]);
