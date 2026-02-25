@@ -8,9 +8,9 @@ import { EllipsePreview } from "./shapes/ellipse/preview";
 import { FramePreview } from "./shapes/frame/preview";
 import { LinePreview } from "./shapes/line/preview";
 import { RectanglePreview } from "./shapes/rectangle/preview";
+import { SelectionOverlay } from "./shapes/selection";
 import { FreeDrawStrokePreview } from "./shapes/stroke/preview";
 import TextSidebar from "./text-sidebar";
-import { SelectionOverlay } from "./shapes/selection";
 
 const InfiniteCanvas = () => {
   const {
@@ -70,10 +70,10 @@ const InfiniteCanvas = () => {
             <ShapeRenderer
               key={shape.id}
               shape={shape}
-              toggleInspiration={() => {}}
-              toggleChat={() => {}}
-              generateWorkflow={() => {}}
-              exportDesign={() => {}}
+              // toggleInspiration={toggleInspiration}
+              // toggleChat={toggleChat}
+              // generateWorkflow={generateWorkflow}
+              // exportDesign={exportDesign}
             />
           ))}
 

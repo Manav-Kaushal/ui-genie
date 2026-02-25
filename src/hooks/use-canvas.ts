@@ -1,6 +1,10 @@
 "use client";
 
 import {
+  downloadBlob,
+  generateFrameSnapshot,
+} from "@/lib/frame-snapshot-utils";
+import {
   addArrow,
   addEllipse,
   addFrame,
@@ -9,6 +13,7 @@ import {
   addRect,
   addText,
   clearSelection,
+  FrameShape,
   removeShape,
   selectShape,
   setTool,
@@ -27,7 +32,7 @@ import {
   wheelPan,
   wheelZoom,
 } from "@/redux/slice/viewport";
-import { AppDispatch, useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -928,6 +933,46 @@ const useInfiniteCanvas = () => {
     isSidebarOpen,
     hasSelectedText,
     setIsSidebarOpen,
+  };
+};
+
+// Frame -> snapshot -> AI API -> Generated UI -> Add to canvas
+
+export const useFrame = (shape: FrameShape) => {
+  const dispatch = useAppDispatch();
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const allShapes = useAppSelector((state) =>
+    Object.values(state.shapes.shapes?.entities || {}).filter(
+      (shape): shape is Shape => shape !== undefined,
+    ),
+  );
+
+  const handleGenerateDesign = async () => {
+    try {
+      setIsGenerating(true);
+      const snapshot = await generateFrameSnapshot(shape, allShapes);
+
+      downloadBlob(snapshot, `frame-${shape.frameNumber}-snapshot.png`);
+
+      const formData = new FormData();
+      formData.append("image", snapshot, `frame-${shape.frameNumber}.png`);
+      formData.append("frameNumber", shape.frameNumber.toString());
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('project');
+
+      if (projectId) {
+        formData.append('projectId', projectId);
+      }
+
+      
+    } catch (error) {}
+  };
+
+  return {
+    isGenerating,
+    handleGenerateDesign,
   };
 };
 
