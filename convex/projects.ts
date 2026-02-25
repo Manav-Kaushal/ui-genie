@@ -123,3 +123,33 @@ export const getProjectStyleGuide = query({
     }
   },
 });
+
+export const updateProjectSketches = mutation({
+  args: {
+    projectId: v.id("projects"),
+    sketchesData: v.any(),
+    viewportData: v.any(),
+  },
+  handler: async (ctx, { projectId, sketchesData, viewportData }) => {
+    // const userId = await getAuthUserId(ctx);
+    // if (!userId) throw new Error("Not authenticated");
+
+    const project = await ctx.db.get(projectId);
+    if (!project) throw new Error("Project not found");
+
+    // if (project.userId !== userId) throw new Error("Access Denied");
+
+    const updateData: any = {
+      sketchesData,
+      lastModified: Date.now(),
+    };
+
+    if (viewportData) updateData.viewportData = viewportData;
+
+    await ctx.db.patch(projectId, updateData);
+
+    console.log("💯 [Convex] Project autosaved successfully!");
+
+    return { success: true };
+  },
+});
